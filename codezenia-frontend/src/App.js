@@ -3,7 +3,9 @@ import Home from "./pages/Home";
 import Register from "./pages/Register";
 import Login from "./pages/Login";
 import Dashboard from "./pages/Dashboard";
-
+import StoryQuest from "./pages/games/storyquest/StoryQuest";
+import Leaderboard from "./pages/leaderboard/Leaderboard";
+import DebugArena from "./pages/games/DebugArena/DebugArena";
 function App() {
   return (
     <Router>
@@ -12,6 +14,9 @@ function App() {
         <Route path="/register" element={<Register />} />
         <Route path="/login" element={<Login />} />
         <Route path="/dashboard" element={<Dashboard />} />
+         <Route path="/games/storyquest" element={<StoryQuest />} />
+         <Route path="/leaderboard" element={<Leaderboard />} />
+         <Route path="/games/debuggingarena" element={<DebugArena />} />
       </Routes>
     </Router>
   );

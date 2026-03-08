@@ -1,86 +1,74 @@
 // src/pages/Dashboard.jsx
-import { useEffect, useState } from "react";
-import { getStoryQuests, completeQuest } from "../api";
-import XPBar from "../components/XPBar";        // XP progress bar
-import QuestModal from "../pages/QuestModal";         // Modal with code editor (in pages folder)
+import { useState } from "react";
+import XPBar from "../components/XPBar";
+import { Link } from "react-router-dom"; // Add Link for navigation
+import "./Dashboard.css";
 
 function Dashboard() {
-  const [quests, setQuests] = useState([]);
-  const [user, setUser] = useState(JSON.parse(localStorage.getItem("user")));
-  const [selectedQuest, setSelectedQuest] = useState(null); // currently open quest modal
-
-  // Fetch quests from backend
-  useEffect(() => {
-    const fetchQuests = async () => {
-      try {
-        const res = await getStoryQuests();
-        setQuests(res.data);
-      } catch (err) {
-        console.error("Failed to fetch quests:", err);
-      }
-    };
-    fetchQuests();
-  }, []);
-
-  // Called when user submits code in QuestModal
-  const handleComplete = async (questId) => {
-    if (!user) return alert("User not logged in!");
-    try {
-      const res = await completeQuest(questId, user.id);
-      alert(res.data.message);
-
-      // Update XP & level in state and localStorage
-      const updatedUser = { ...user, xp: res.data.xp, level: res.data.level };
-      setUser(updatedUser);
-      localStorage.setItem("user", JSON.stringify(updatedUser));
-
-      // Close modal automatically
-      setSelectedQuest(null);
-    } catch (err) {
-      console.error("Failed to complete quest:", err);
+  const [user] = useState(
+    JSON.parse(localStorage.getItem("user")) || {
+      username: "Rakshitha",
+      xp: 0,
+      level: 1,
+      streak: 0,
     }
-  };
+  );
 
   return (
-    <div style={{ padding: "20px" }}>
-      <h2>Welcome, {user?.username}</h2>
-      <XPBar xp={user?.xp} level={user?.level} />
+    <div className="dashboard">
+      {/* Sidebar */}
+      <aside className="sidebar">
+        <div className="profile-card">
+          <div className="username">{user.username}</div>
+          <div className="level">Level {user.level}</div>
+          <div className="xp-streak">
+            <span>XP: {user.xp}</span>
+            <span>🔥 Streak: {user.streak}</span>
+          </div>
+        </div>
 
-      <h3>Story Quests</h3>
-      <ul>
-        {quests.map((q) => {
-          const unlocked = user?.xp >= q.xp_reward;
+        <nav className="sidebar-nav">
+          <Link to="/leaderboard"><button>Leaderboard</button></Link>
+          <Link to="/roadmap"><button>Roadmap</button></Link>
+          <Link to="/achievements"><button>Achievements</button></Link>
+        </nav>
+      </aside>
 
-          return (
-            <li key={q.id} style={{ marginBottom: "10px" }}>
-              <strong>{q.title}</strong> - {q.description} | XP: {q.xp_reward}
-              <button
-                style={{
-                  marginLeft: "10px",
-                  backgroundColor: unlocked ? "#4ade80" : "#aaa",
-                  cursor: unlocked ? "pointer" : "not-allowed",
-                  color: "#fff",
-                  padding: "5px 10px",
-                  border: "none",
-                  borderRadius: "5px",
-                }}
-                onClick={() => unlocked && setSelectedQuest(q)}
-              >
-                {unlocked ? "Play Quest" : "Locked"}
-              </button>
-            </li>
-          );
-        })}
-      </ul>
+      {/* Main Content */}
+      <main className="main-content">
+        {/* Progress */}
+        <section className="progress-section">
+          <h2>Your Progress</h2>
+          <XPBar xp={user.xp} level={user.level} />
+        </section>
 
-      {/* Quest Modal */}
-      {selectedQuest && (
-        <QuestModal
-          quest={selectedQuest}
-          onClose={() => setSelectedQuest(null)}
-          onComplete={handleComplete} // pass complete function to modal
-        />
-      )}
+        {/* Games */}
+        <section className="games-section">
+          <h2>Games</h2>
+          <div className="games-grid">
+            {/* Story Quest */}
+            <Link to="/games/storyquest">
+              <div className="game-card" style={{ backgroundColor: "#38a169" }}>
+                Story Quest 🌍
+              </div>
+            </Link>
+
+            {/* Debugging Arena */}
+            <Link to="/games/debuggingarena">
+              <div className="game-card" style={{ backgroundColor: "#319795" }}>
+                Debugging Arena 🐞
+              </div>
+            </Link>
+
+            {/* Multiplayer */}
+            <Link to="/games/multiplayer">
+              <div className="game-card" style={{ backgroundColor: "#dd6b20" }}>
+                Multiplayer ⚔️
+              </div>
+            </Link>
+          </div>
+        </section>
+      </main>
     </div>
   );
 }

@@ -1,13 +1,30 @@
 // src/api.js
 import axios from "axios";
 
-const API_URL = "http://localhost:5000"; // Flask backend base URL
+// Axios instance
+const API = axios.create({
+  baseURL: "http://localhost:5000", // Flask backend URL
+});
 
-// Auth APIs
-export const registerUser = (data) => axios.post(`${API_URL}/auth/register`, data);
-export const loginUser = (data) => axios.post(`${API_URL}/auth/login`, data);
+// API methods
+const api = {
 
-// StoryQuest APIs
-export const getStoryQuests = () => axios.get(`${API_URL}/api/storyquests`);
-export const completeQuest = (questId, userId) =>
-  axios.post(`${API_URL}/api/storyquests/${questId}/complete`, { user_id: userId });
+  // Auth APIs
+  registerUser: (data) => API.post("/auth/register", data),
+
+  loginUser: (data) => API.post("/auth/login", data),
+
+  // StoryQuest APIs
+  getStoryQuests: () => API.get("/api/storyquests"),
+
+  completeQuest: (questId, userId) =>
+    API.post(`/api/storyquests/${questId}/complete`, {
+      user_id: userId,
+    }),
+
+  // Leaderboard API
+  getLeaderboard: () => API.get("/leaderboard"),
+
+};
+
+export default api;
