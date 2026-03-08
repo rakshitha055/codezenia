@@ -18,6 +18,12 @@ function Dashboard() {
     }
   );
 
+  // Logout function
+  const handleLogout = () => {
+    localStorage.removeItem("user");
+    navigate("/login");
+  };
+
   return (
     <div className="dashboard">
 
@@ -35,17 +41,30 @@ function Dashboard() {
           </div>
         </div>
 
+        {/* Sidebar navigation */}
+
         <nav className="sidebar-nav">
+          <Link to="/profile"><button>Profile</button></Link>
           <Link to="/leaderboard"><button>Leaderboard</button></Link>
           <Link to="/roadmap"><button>Roadmap</button></Link>
           <Link to="/achievements"><button>Achievements</button></Link>
         </nav>
+
+        {/* Logout button at bottom */}
+
+        <div style={{ marginTop: "auto", padding: "20px" }}>
+          <button onClick={handleLogout}>Logout</button>
+        </div>
 
       </aside>
 
       {/* Main */}
 
       <main className="main-content">
+
+        {/* Welcome message */}
+
+        <h2>Welcome, {user.username} 👋</h2>
 
         {/* Progress */}
 
