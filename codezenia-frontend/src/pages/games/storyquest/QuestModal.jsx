@@ -1,9 +1,9 @@
 // src/pages/games/storyquest/QuestModal.jsx
+
 import { useState } from "react";
-import CodeEditor from "../../../components/CodeEditor"; // Your code editor component
+import { motion } from "framer-motion";
+import CodeEditor from "../../../components/CodeEditor";
 
-
-// Example world questions (minimum 10 per world recommended)
 const worldQuestions = {
   "HTML Island": [
     { id: 1, question: "Create a heading (<h1>) with your name" },
@@ -15,7 +15,7 @@ const worldQuestions = {
     { id: 7, question: "Add semantic HTML tags to structure content" },
     { id: 8, question: "Create a table with your favorite foods" },
     { id: 9, question: "Create a form with name and email fields" },
-    { id: 10, question: "Add a footer with copyright info" },
+    { id: 10, question: "Add a footer with copyright info" }
   ],
   "CSS Forest": [
     { id: 11, question: "Change the background color of your page" },
@@ -27,43 +27,65 @@ const worldQuestions = {
     { id: 17, question: "Change font-family and font-size" },
     { id: 18, question: "Add a responsive image" },
     { id: 19, question: "Style a list with custom bullets" },
-    { id: 20, question: "Make a navigation bar with hover effect" },
-  ],
-  // Add JavaScript City, React Mountain, API Ocean, AI Kingdom similarly
+    { id: 20, question: "Make a navigation bar with hover effect" }
+  ]
 };
 
 function QuestModal({ quest, onClose, onComplete }) {
+
   const [language, setLanguage] = useState("html");
   const [code, setCode] = useState("");
   const [currentStep, setCurrentStep] = useState(0);
 
-  // Determine the world by splitting title
-  const worldName = quest.title.split(" ")[0] + " " + quest.title.split(" ")[1];
-  const questions = worldQuestions[worldName] || [{ id: 0, question: quest.description }];
+  const worldName =
+    quest.title.split(" ")[0] + " " + quest.title.split(" ")[1];
+
+  const questions =
+    worldQuestions[worldName] || [{ id: 0, question: quest.description }];
 
   const handleNext = () => {
+
     if (currentStep < questions.length - 1) {
+
       setCurrentStep(currentStep + 1);
-      setCode(""); // Clear editor for next step
+      setCode("");
+
     } else {
-      // Completed all questions in this world
+
       if (onComplete) onComplete(quest.id);
+
       alert("🎉 Quest Completed!");
       onClose();
+
     }
   };
 
   return (
-    <div className="quest-modal-overlay">
-      <div className="quest-modal-container">
-        <h2>
+
+    <div style={overlay}>
+
+      <motion.div
+        style={modal}
+        initial={{opacity:0,scale:0.9}}
+        animate={{opacity:1,scale:1}}
+        whileHover={{
+          boxShadow:"0 0 35px rgba(0,229,255,0.5)"
+        }}
+      >
+
+        <h2 style={title}>
           {quest.title} - Step {currentStep + 1}/{questions.length}
         </h2>
-        <p>{questions[currentStep].question}</p>
 
-        <label>
+        <p style={question}>{questions[currentStep].question}</p>
+
+        <label style={label}>
           Choose Language:
-          <select value={language} onChange={(e) => setLanguage(e.target.value)}>
+          <select
+            value={language}
+            onChange={(e)=>setLanguage(e.target.value)}
+            style={select}
+          >
             <option value="html">HTML</option>
             <option value="css">CSS</option>
             <option value="javascript">JS</option>
@@ -71,16 +93,134 @@ function QuestModal({ quest, onClose, onComplete }) {
           </select>
         </label>
 
-        <CodeEditor language={language} value={code} onChange={setCode} />
-
-        <div className="quest-modal-buttons">
-          <button onClick={onClose}>Close</button>
-          <button onClick={handleNext}>Submit & Next</button>
+        <div style={editorContainer}>
+          <CodeEditor
+            language={language}
+            value={code}
+            onChange={setCode}
+          />
         </div>
-      </div>
+
+        <div style={buttons}>
+
+          <motion.button
+            style={closeBtn}
+            whileHover={{
+              scale:1.08,
+              boxShadow:"0 0 15px #ef4444"
+            }}
+            whileTap={{scale:0.95}}
+            onClick={onClose}
+          >
+            Close
+          </motion.button>
+
+          <motion.button
+            style={nextBtn}
+            whileHover={{
+              scale:1.08,
+              boxShadow:"0 0 20px #00e5ff"
+            }}
+            whileTap={{scale:0.95}}
+            onClick={handleNext}
+          >
+            Submit & Next
+          </motion.button>
+
+        </div>
+
+      </motion.div>
+
     </div>
   );
 }
 
 export default QuestModal;
 
+
+
+/* STYLES */
+
+const overlay = {
+  position:"fixed",
+  top:0,
+  left:0,
+  width:"100%",
+  height:"100%",
+  display:"flex",
+  justifyContent:"center",
+  alignItems:"center",
+  background:"linear-gradient(135deg,#020617cc,#0f172acc,#1e1b4bcc)",
+  backdropFilter:"blur(8px)",
+  zIndex:1000
+};
+
+const modal = {
+  width:"80%",
+  maxWidth:"900px",
+  padding:"35px",
+  borderRadius:"16px",
+  background:"rgba(255,255,255,0.06)",
+  backdropFilter:"blur(18px)",
+  WebkitBackdropFilter:"blur(18px)",
+  border:"1px solid rgba(255,255,255,0.15)",
+  boxShadow:"0 0 25px rgba(168,85,247,0.3)",
+  color:"white",
+  fontFamily:"Segoe UI"
+};
+
+const title = {
+  fontSize:"28px",
+  background:"linear-gradient(90deg,#00e5ff,#a855f7)",
+  WebkitBackgroundClip:"text",
+  color:"transparent"
+};
+
+const question = {
+  marginTop:"10px",
+  opacity:0.9
+};
+
+const label = {
+  display:"block",
+  marginTop:"20px"
+};
+
+const select = {
+  marginLeft:"10px",
+  padding:"6px",
+  borderRadius:"6px",
+  border:"none"
+};
+
+const editorContainer = {
+  marginTop:"15px",
+  borderRadius:"10px",
+  overflow:"hidden",
+  border:"1px solid #334155"
+};
+
+const buttons = {
+  marginTop:"20px",
+  display:"flex",
+  justifyContent:"flex-end",
+  gap:"15px"
+};
+
+const closeBtn = {
+  padding:"10px 20px",
+  border:"none",
+  borderRadius:"8px",
+  background:"linear-gradient(90deg,#ef4444,#dc2626)",
+  color:"white",
+  cursor:"pointer"
+};
+
+const nextBtn = {
+  padding:"10px 20px",
+  border:"none",
+  borderRadius:"8px",
+  background:"linear-gradient(90deg,#00e5ff,#a855f7)",
+  color:"white",
+  cursor:"pointer"
+};

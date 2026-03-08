@@ -6,6 +6,9 @@ import Dashboard from "./pages/Dashboard";
 import StoryQuest from "./pages/games/storyquest/StoryQuest";
 import Leaderboard from "./pages/leaderboard/Leaderboard";
 import DebugArena from "./pages/games/DebugArena/DebugArena";
+import PuzzleMode from "./pages/games/PuzzleMode/PuzzleMode";
+import BattleLobby from "./pages/games/BattleLobby/BattleLobby";
+
 function App() {
   return (
     <Router>
@@ -17,6 +20,8 @@ function App() {
          <Route path="/games/storyquest" element={<StoryQuest />} />
          <Route path="/leaderboard" element={<Leaderboard />} />
          <Route path="/games/debuggingarena" element={<DebugArena />} />
+         <Route path="/games/puzzlemode" element={<PuzzleMode />} />
+         <Route path="/games/battlelobby" element={<BattleLobby />} />
       </Routes>
     </Router>
   );

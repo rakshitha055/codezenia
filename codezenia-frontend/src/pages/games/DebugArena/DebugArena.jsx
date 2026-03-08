@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { motion } from "framer-motion";
 
 function DebugArena() {
 
@@ -98,57 +99,70 @@ console.log("Hello")`,
   };
 
   return (
-    <div style={{ padding: "40px", background: "#1a202c", color: "white", minHeight: "100vh" }}>
+    <div style={main}>
 
-      <h1>Debugging Arena 🐛</h1>
-      <p>Find and fix bugs as fast as you can!</p>
+      <h1 style={title}>🐛 Debugging Arena</h1>
+      <p style={subtitle}>Find and fix bugs before time runs out!</p>
 
       {!gameStarted && !gameOver && (
-        <div style={{
-          background: "#2d3748",
-          padding: "40px",
-          marginTop: "30px",
-          borderRadius: "10px",
-          textAlign: "center"
-        }}>
+
+        <motion.div
+          style={card}
+          initial={{opacity:0,scale:0.9}}
+          animate={{opacity:1,scale:1}}
+          whileHover={{
+            scale:1.03,
+            boxShadow:"0 0 40px rgba(0,229,255,0.6)"
+          }}
+        >
+
           <h2>Ready to Hunt Bugs?</h2>
 
-          <div style={{ display: "flex", justifyContent: "center", gap: "20px", marginTop: "20px" }}>
+          <div style={stats}>
             <div>⏱ 60 Seconds</div>
             <div>🐞 5 Bugs</div>
-            <div>⚡ 100 pts each</div>
+            <div>⚡ 100 XP Each</div>
           </div>
 
-          <button
-            onClick={startGame}
-            style={{
-              marginTop: "30px",
-              padding: "12px 30px",
-              background: "orange",
-              border: "none",
-              borderRadius: "8px",
-              fontSize: "16px",
-              cursor: "pointer"
+          <motion.button
+            whileHover={{
+              scale:1.1,
+              boxShadow:"0 0 20px #00e5ff"
             }}
+            whileTap={{scale:0.95}}
+            onClick={startGame}
+            style={startBtn}
           >
             Start Debugging
-          </button>
-        </div>
+          </motion.button>
+
+        </motion.div>
+
       )}
 
       {gameStarted && !gameOver && (
-        <div style={{ marginTop: "30px" }}>
 
-          <div style={{ display: "flex", gap: "30px", marginBottom: "20px" }}>
-            <div>⏱ Time Left: {timeLeft}s</div>
-            <div>⚡ Score: {score}</div>
-            <div>🐞 Bugs Fixed: {bugsFixed}/5</div>
+        <div style={{marginTop:"40px"}}>
+
+          <div style={scoreBar}>
+            <div>⏱ {timeLeft}s</div>
+            <div>⚡ {score} XP</div>
+            <div>🐞 {bugsFixed}/5 Fixed</div>
           </div>
 
-          <div style={{ background: "#2d3748", padding: "30px", borderRadius: "10px" }}>
+          <motion.div
+            style={card}
+            initial={{opacity:0,y:30}}
+            animate={{opacity:1,y:0}}
+            whileHover={{
+              scale:1.02,
+              boxShadow:"0 0 35px rgba(168,85,247,0.6)"
+            }}
+          >
+
             <h3>{bugs[currentBug].question}</h3>
 
-            <pre style={{ background: "#1a202c", padding: "20px", borderRadius: "8px" }}>
+            <pre style={code}>
 {bugs[currentBug].code}
             </pre>
 
@@ -156,52 +170,57 @@ console.log("Hello")`,
               type="text"
               placeholder="Type the fix..."
               value={answer}
-              onChange={(e) => setAnswer(e.target.value)}
-              style={{
-                width: "100%",
-                padding: "10px",
-                marginTop: "15px",
-                borderRadius: "5px",
-                border: "none"
-              }}
+              onChange={(e)=>setAnswer(e.target.value)}
+              style={input}
             />
 
-            <button
-              onClick={checkAnswer}
-              style={{
-                marginTop: "15px",
-                padding: "10px 20px",
-                background: "green",
-                border: "none",
-                borderRadius: "6px",
-                cursor: "pointer"
+            <motion.button
+              whileHover={{
+                scale:1.05,
+                boxShadow:"0 0 20px #22c55e"
               }}
+              whileTap={{scale:0.95}}
+              onClick={checkAnswer}
+              style={fixBtn}
             >
-              ✔ Fixed It!
-            </button>
+              ✔ Fixed It
+            </motion.button>
 
-          </div>
+          </motion.div>
+
         </div>
+
       )}
 
       {gameOver && (
-        <div style={{ marginTop: "40px", textAlign: "center" }}>
-          <h2>Game Over</h2>
-          <p>Your Score: {score}</p>
 
-          <button
-            onClick={restartGame}
-            style={{
-              padding: "10px 25px",
-              background: "orange",
-              border: "none",
-              borderRadius: "8px",
-              cursor: "pointer"
+        <motion.div
+          style={card}
+          initial={{opacity:0,scale:0.8}}
+          animate={{opacity:1,scale:1}}
+          whileHover={{
+            scale:1.03,
+            boxShadow:"0 0 35px rgba(0,229,255,0.5)"
+          }}
+        >
+
+          <h2>🏁 Game Over</h2>
+          <p style={{fontSize:"20px"}}>Your Score: {score} XP</p>
+
+          <motion.button
+            whileHover={{
+              scale:1.1,
+              boxShadow:"0 0 20px #00e5ff"
             }}
+            whileTap={{scale:0.95}}
+            onClick={restartGame}
+            style={startBtn}
           >
             Play Again
-          </button>
-        </div>
+          </motion.button>
+
+        </motion.div>
+
       )}
 
     </div>
@@ -209,3 +228,95 @@ console.log("Hello")`,
 }
 
 export default DebugArena;
+
+
+
+/* STYLES */
+
+const main = {
+  minHeight:"100vh",
+  padding:"50px",
+  background:"linear-gradient(135deg,#020617,#0f172a,#1e1b4b)",
+  color:"white",
+  fontFamily:"Segoe UI",
+  textAlign:"center"
+}
+
+const title = {
+  fontSize:"48px",
+  background:"linear-gradient(90deg,#00e5ff,#a855f7)",
+  WebkitBackgroundClip:"text",
+  color:"transparent"
+}
+
+const subtitle = {
+  opacity:"0.8",
+  marginTop:"10px"
+}
+
+const card = {
+  background:"rgba(255,255,255,0.06)",
+  backdropFilter:"blur(18px)",
+  WebkitBackdropFilter:"blur(18px)",
+  padding:"40px",
+  marginTop:"30px",
+  borderRadius:"16px",
+  border:"1px solid rgba(255,255,255,0.15)",
+  boxShadow:"0 0 25px rgba(168,85,247,0.25)",
+  transition:"all 0.3s ease"
+}
+
+const stats = {
+  display:"flex",
+  justifyContent:"center",
+  gap:"30px",
+  marginTop:"20px"
+}
+
+const scoreBar = {
+  display:"flex",
+  justifyContent:"center",
+  gap:"40px",
+  marginBottom:"20px",
+  fontSize:"18px"
+}
+
+const code = {
+  background:"#020617",
+  padding:"20px",
+  borderRadius:"10px",
+  textAlign:"left",
+  marginTop:"15px",
+  color:"#00e5ff",
+  border:"1px solid #334155"
+}
+
+const input = {
+  width:"100%",
+  padding:"12px",
+  marginTop:"15px",
+  borderRadius:"8px",
+  border:"none",
+  outline:"none"
+}
+
+const startBtn = {
+  marginTop:"25px",
+  padding:"12px 30px",
+  background:"linear-gradient(90deg,#00e5ff,#a855f7)",
+  border:"none",
+  borderRadius:"10px",
+  color:"white",
+  cursor:"pointer",
+  fontSize:"16px"
+}
+
+const fixBtn = {
+  marginTop:"15px",
+  padding:"10px 25px",
+  background:"linear-gradient(90deg,#22c55e,#16a34a)",
+  border:"none",
+  borderRadius:"8px",
+  color:"white",
+  cursor:"pointer"
+}

@@ -87,22 +87,60 @@
 
 .games-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit,minmax(220px,1fr));
+  grid-template-columns: repeat(auto-fit,minmax(230px,1fr));
   gap: 20px;
 }
+
+/* Game Card */
 
 .game-card {
   padding: 20px;
   border-radius: 12px;
-  cursor: pointer;
   background: rgba(255,255,255,0.07);
   backdrop-filter: blur(10px);
   transition: all 0.25s ease;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
 }
+
+/* Card hover effect */
 
 .game-card:hover {
   transform: translateY(-6px) scale(1.03);
   box-shadow: 0 0 15px rgba(124,58,237,0.5);
+}
+
+/* Game title */
+
+.game-card h3 {
+  font-size: 18px;
+}
+
+/* Game description */
+
+.game-card p {
+  font-size: 13px;
+  color: #cbd5f5;
+}
+
+/* Start Challenge button */
+
+.game-card button {
+  margin-top: auto;
+  padding: 10px;
+  border: none;
+  border-radius: 8px;
+  background: linear-gradient(90deg,#7c3aed,#06b6d4);
+  color: white;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.25s;
+}
+
+.game-card button:hover {
+  transform: scale(1.05);
+  box-shadow: 0 0 10px rgba(0,229,255,0.6);
 }
 
 /* Achievements */

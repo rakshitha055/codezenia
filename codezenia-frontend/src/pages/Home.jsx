@@ -50,29 +50,18 @@ function Home() {
       {/* FEATURES */}
 
       <section style={section}>
-        <h2 style={sectionTitle}>🚀 Features</h2>
+        <h2 style={sectionTitle}>🚀 Platform Features</h2>
 
         <div style={grid}>
 
-          <Feature
-          title="🎮 Gamified Learning"
-          text="Level up by solving coding challenges and unlock new quests."
-          />
-
-          <Feature
-          title="🤖 AI Mentor"
-          text="Stuck on a problem? Get instant hints and explanations."
-          />
-
-          <Feature
-          title="🏆 Leaderboards"
-          text="Compete with coders worldwide and climb the ranking."
-          />
-
-          <Feature
-          title="🧩 Coding Puzzles"
-          text="Improve logic with fun algorithm and puzzle challenges."
-          />
+          <Feature title="🎮 Gamified Learning" text="Level up by solving coding challenges and unlock new quests." />
+          <Feature title="🤖 AI Mentor" text="Get instant hints, explanations and debugging help." />
+          <Feature title="⚔ Coding Battles" text="Fight real-time coding battles with other developers." />
+          <Feature title="🏆 Leaderboards" text="Compete globally and climb the ranking ladder." />
+          <Feature title="🧩 Coding Puzzles" text="Improve logic with algorithm and puzzle challenges." />
+          <Feature title="📊 Progress Tracker" text="Track your XP, completed quests and learning progress." />
+          <Feature title="🎯 Daily Challenges" text="Solve daily coding missions and maintain streaks." />
+          <Feature title="🌍 Global Community" text="Join thousands of coders learning together." />
 
         </div>
       </section>
@@ -86,25 +75,10 @@ function Home() {
 
         <div style={grid}>
 
-          <Feature
-          title="🔥 Daily Streak"
-          text="Maintain daily coding streak and build consistency."
-          />
-
-          <Feature
-          title="⭐ XP Points"
-          text="Earn XP points for every quest you complete."
-          />
-
-          <Feature
-          title="🎯 Skill Badges"
-          text="Unlock badges for mastering programming skills."
-          />
-
-          <Feature
-          title="👑 Elite Rank"
-          text="Top players reach the elite developer leaderboard."
-          />
+          <Feature title="🔥 Daily Streak" text="Maintain coding streaks and stay consistent." />
+          <Feature title="⭐ XP Points" text="Earn XP for every challenge you complete." />
+          <Feature title="🎯 Skill Badges" text="Unlock badges for mastering programming skills." />
+          <Feature title="👑 Elite Rank" text="Reach the elite developer leaderboard." />
 
         </div>
       </section>
@@ -118,25 +92,10 @@ function Home() {
 
         <div style={grid}>
 
-          <Feature
-          title="1️⃣ Create Account"
-          text="Sign up and start your coding adventure in seconds."
-          />
-
-          <Feature
-          title="2️⃣ Choose Challenges"
-          text="Pick coding quests from beginner to advanced levels."
-          />
-
-          <Feature
-          title="3️⃣ Solve & Gain XP"
-          text="Solve problems, gain XP, unlock achievements."
-          />
-
-          <Feature
-          title="4️⃣ Climb Leaderboard"
-          text="Compete with developers and reach the top."
-          />
+          <Feature title="1️⃣ Create Account" text="Sign up and start your coding adventure instantly." />
+          <Feature title="2️⃣ Choose Quests" text="Pick coding quests from beginner to advanced." />
+          <Feature title="3️⃣ Solve & Gain XP" text="Complete coding missions and gain experience points." />
+          <Feature title="4️⃣ Become Legend" text="Climb leaderboards and become a legendary developer." />
 
         </div>
       </section>
@@ -170,7 +129,7 @@ export default Home;
 
 
 
-/* CARD COMPONENT */
+/* FEATURE CARD */
 
 const Feature = ({title,text}) => (
 
@@ -181,14 +140,13 @@ const Feature = ({title,text}) => (
   transition={{duration:0.6}}
   viewport={{once:true}}
   whileHover={{
-    scale:1.07,
-    rotate:1,
-    boxShadow:"0px 10px 30px rgba(0,229,255,0.4)"
+    scale:1.05,
+    boxShadow:"0px 0px 25px rgba(0,229,255,0.6)"
   }}
   >
 
     <h3>{title}</h3>
-    <p style={{marginTop:"10px",opacity:"0.9"}}>{text}</p>
+    <p style={cardText}>{text}</p>
 
   </motion.div>
 
@@ -199,7 +157,7 @@ const Feature = ({title,text}) => (
 /* STYLES */
 
 const main = {
-  background:"linear-gradient(135deg,#020617,#0f172a)",
+  background:"linear-gradient(135deg,#020617,#0f172a,#020617)",
   color:"white",
   fontFamily:"Segoe UI"
 }
@@ -246,18 +204,29 @@ const sectionTitle = {
 
 const grid = {
   display:"grid",
-  gridTemplateColumns:"repeat(auto-fit,minmax(220px,1fr))",
-  gap:"25px"
+  gridTemplateColumns:"repeat(4,1fr)",
+  gap:"40px",
+  alignItems:"stretch"
 }
 
 const card = {
   background:"rgba(255,255,255,0.05)",
-  backdropFilter:"blur(10px)",
+  backdropFilter:"blur(12px)",
   padding:"25px",
   borderRadius:"12px",
   border:"1px solid rgba(255,255,255,0.08)",
   cursor:"pointer",
-  transition:"0.3s"
+  transition:"0.3s",
+  minHeight:"150px",
+  display:"flex",
+  flexDirection:"column",
+  justifyContent:"center",
+  textAlign:"center"
+}
+
+const cardText = {
+  marginTop:"10px",
+  opacity:"0.9"
 }
 
 const btn = {
